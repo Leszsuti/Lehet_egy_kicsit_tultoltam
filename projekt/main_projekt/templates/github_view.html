@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>github</title>
+    <style>
+        body{
+            font-family: Segoe UI,serif;
+        }
+        .funkciok{
+            border-radius: 20px;
+            background-color: lightgrey;
+            padding: 20px;
+            margin: 10px;
+        }
+        label{
+            display: block;
+            margin-top: 20px;
+        }
+        input{
+            font-family: Segoe UI,serif;
+            width: 300px;
+            height: 24px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border: none;
+            border-radius: 12px;
+            background-color: white;
+        }
+        button{
+            font-family: Segoe UI,serif;
+            border: none;
+            background-color: rgba(184, 134, 11, 0.69);
+            height: 24px;
+            font-weight: bold;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 12px;
+        }
+        button:hover{
+            background-color: darkgoldenrod;
+        }
+        button:active{
+            scale: 0.96;
+        }
+        .mappak{
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body style="display: flex; flex-direction: row">
+    <div style="padding: 20px; background-color: lightgrey; height: min-content; margin: 10px; border-radius: 20px">
+        <h2>{{valaki.github_felhasznalonev}}</h2>
+        <p>Token: {{valaki.github_token}}</p>
+        <p>E-mail: {{valaki.email}}</p>
+        <br>
+        <h3>Összes repo:</h3>
+        {% for repo in lista %}
+            <p>{{valaki.github_felhasznalonev}}/{{repo}}</p>
+        {% endfor %}
+        <p style="color: red; background-color: white;  padding: 10px; border-radius: 10px">{{uzenet}}</p>
+    </div>
+    <div>
+        <form method="post" class="funkciok">
+            <h3>Repository létrehozása</h3>
+            <label for="repo_name">Repo neve: </label>
+            <input id="repo_name" type="text" name="repo_name">
+            <button type="submit" name="gomb" value="letrehoz">Létrehoz</button>
+            <h3>Repository törlése</h3>
+            <label for="repo_name_delete">Repo neve: </label>
+            <input id="repo_name_delete" type="text" name="repo_name_delete">
+            <button type="submit" name="gomb" value="torles">Törlés</button>
+        </form>
+        <form method="post" class="funkciok">
+            <h3>Push</h3>
+            <label for="push_honnan">Honnan: </label>
+            <input id="push_honnan" type="text" name="push_honnan" value="{{valaki.get_adat('push_honnan')}}">
+            <label for="commit_message">Commit message: </label>
+            <input id="commit_message" type="text" name="push_message" value="{{valaki.get_adat('push_message')}}">
+            <label for="push_repo_name">Hova (Repo neve): </label>
+            <input id="push_repo_name" type="text" name="push_repo_name" value="{{valaki.get_adat('push_repo_name')}}">
+            <button type="submit" name="gomb" value="push">Push</button>
+        </form>
+        <form method="post" class="funkciok">
+            <h3>Clone</h3>
+            <label for="clone_path">Hova: </label>
+            <input id="clone_path" type="text" name="clone_path" value="{{valaki.get_adat('clone_path')}}">
+            <label for="clone_url">Url: </label>
+            <input id="clone_url" type="text" name="clone_url" value="{{valaki.get_adat('clone_url')}}">
+            <button type="submit" name="gomb" value="clone">Clone</button>
+        </form>
+        <form method="post" class="funkciok">
+            <h3>Pull</h3>
+            <label for="pull_hova">Hova: </label>
+            <input id="pull_hova" type="text" name="pull_hova" value="{{ valaki.get_adat('pull_hova') }}">
+            <button type="submit" name="gomb" value="pull">Pull</button>
+        </form>
+    </div>
+
+    <div style="padding: 20px; background-color: lightgrey; height: min-content; margin: 10px; border-radius: 20px">
+        <h3>Saját mappa</h3>
+        <form method="post">
+            <label>Gyökér (abszolút utvonal): <input type="text" name="text_gyoker" value="{{ valaki.get_adat('text_gyoker') }}"></label>
+            <button type="submit" name="gomb" value="gomb_gyoker">Mutasd</button>
+        </form>
+        <div class="mappak">
+            {% for trio in lista_sajat %}
+                <div>
+                    <pre style="display: inline">{{trio.get_space()}}</pre>
+                    {% if not trio.is_file() %}
+                        <form method="post" style="margin: 0; display: inline">
+                            <button type="submit" name="change_aktiv" value="{{ trio.get_id() }}"
+                                    style="border: none; background-color: white; margin-right: -4px"
+                            >+</button>
+                        </form>
+                    {% endif %}
+                    {% if trio.is_file() %}
+                        <form method="post" style="margin: 0; display: inline">
+                            <button style="visibility: hidden; border: none; margin-right: -4px">+</button>
+                        </form>
+                    {% endif %}
+                    <pre style="display: inline">{{trio.get_nev()}}</pre>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div style="padding: 20px; background-color: lightgrey; height: min-content; margin: 10px; border-radius: 20px">
+        <h3>GitHub repo</h3>
+        <form method="post">
+            <label>Repo neve (pl: Leszsuti/reponev): <input type="text" name="repo_neve" value="{{valaki.get_adat('repo_neve')}}"></label>
+            <button type="submit" name="gomb" value="gomb_gyoker_github">Mutasd</button>
+        </form>
+        <div class="mappak">
+            {% for trio in lista_github %}
+                <div>
+                    <pre style="display: inline">{{trio.get_space()}}</pre>
+                    {% if not trio.is_file() %}
+                        <form method="post" style="margin: 0; display: inline">
+                            <button type="submit" name="change_aktiv_github" value="{{ trio.get_id() }}"
+                                    style="border: none; background-color: white; margin-right: -4px"
+                            >+</button>
+                        </form>
+                    {% endif %}
+                    {% if trio.is_file() %}
+                        <form method="post" style="margin: 0; display: inline">
+                            <button style="visibility: hidden; border: none; margin-right: -4px">+</button>
+                        </form>
+                    {% endif %}
+                    <pre style="display: inline">{{trio.get_nev()}}</pre>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

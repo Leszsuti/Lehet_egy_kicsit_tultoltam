@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+    <style>
+        body{
+            font-family: Segoe UI,serif;
+        }
+        .funkciok{
+            border-radius: 20px;
+            background-color: lightgrey;
+            padding: 20px;
+            margin: 10px;
+        }
+        label{
+            display: block;
+        }
+        input{
+            font-family: Segoe UI,serif;
+            width: 400px;
+            height: 24px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border: none;
+            border-radius: 12px;
+            background-color: white;
+        }
+        button{
+            font-family: Segoe UI,serif;
+            border: none;
+            background-color: rgba(184, 134, 11, 0.69);
+            height: 24px;
+            font-weight: bold;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 12px;
+        }
+        button:hover{
+            background-color: darkgoldenrod;
+        }
+        button:active{
+            scale: 0.96;
+        }
+        fieldset{
+            border-radius: 12px;
+            border: none;
+            background-color: #c7c7c7;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .rejtett{
+            color: transparent;
+            text-shadow: 0 0 10px black;
+        }
+        .rejtett:hover{
+            color: black;
+            text-shadow: none;
+        }
+    </style>
+</head>
+<body>
+<div style="padding-top: 20px; width: min-content; margin:auto; margin-bottom: 100px">
+    <form method="post" class="funkciok">
+        <fieldset>
+            <h3>Neptun</h3>
+            <label for="neptun_kod">Neptun kód: </label>
+            <input id="neptun_kod" type="text" name="neptun_kod">
+            <label for="neptun_jelszo">Jelszó: </label>
+            <input id="neptun_jelszo" type="password" name="neptun_jelszo">
+        </fieldset>
+        <fieldset>
+            <h3>Irinyi</h3>
+            <label for="h_azonosito">h-s azonosító: </label>
+            <input id="h_azonosito" type="text" name="h_azonosito">
+            <label for="h_jelszo">Jelszó: </label>
+            <input id="h_jelszo" type="password" name="h_jelszo">
+        </fieldset>
+        <fieldset>
+            <h3>GitHub</h3>
+            <label for="github_felhasznalonev">GitHub felhasználónév: </label>
+            <input id="github_felhasznalonev" type="text" name="github_felhasznalonev">
+            <label for="github_token">Personal acces token (classic): </label>
+            <input id="github_token" type="text" name="github_token"><br>
+            <label for="email">E-mail: </label>
+            <input id="email" type="text" name="email"><br>
+        </fieldset>
+        <button type="submit" name="gomb" value="mentes">Mentés</button>
+    </form>
+    <p style="color: red; text-align: center">{{uzenet}}</p>
+
+    <form method="post" class="funkciok">
+        <button type="submit" name="gomb" value="legutobbi">Legutóbbi mentés betöltése</button>
+        <h3>Adatok:</h3>
+        <p>Neptun kód: {{valaki.neptun_kod}}</p>
+        <p style="display: inline">Jelszó:</p> <p class="rejtett" style="display: inline">{{valaki.neptun_jelszo}}</p>
+        <p>h-s azonosító: {{valaki.h_azonosito}}</p>
+        <p style="display: inline">Jelszó:</p> <p class="rejtett" style="display: inline"> {{valaki.h_jelszo}}</p>
+        <p>GitHub felhasznalonev: {{valaki.github_felhasznalonev}}</p>
+        <p>Personal acces token (classic): {{valaki.github_token}}</p>
+        <p>E-mail: {{valaki.email}}</p>
+    </form>
+
+    <form method="post" class="funkciok">
+        <button type="submit" name="gomb" value="ssh">SSH</button>
+        <button type="submit" name="gomb" value="orarend">Neptun órarend</button>
+        <button type="submit" name="gomb" value="github">GitHub</button>
+    </form>
+
+</div>
+</body>
+</html>
+
+<script>
+  document.querySelectorAll('input[type="password"]').forEach(input => {
+    input.addEventListener('mouseenter', () => input.type = 'text');
+    input.addEventListener('mouseleave', () => input.type = 'password');
+  });
+</script>
